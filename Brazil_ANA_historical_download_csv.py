@@ -1,36 +1,50 @@
 import requests
 import BeautifulSoup
 import csv
+import datetime as dt
 
 DataInicio = '01/01/1980'
 DataFim = '01/01/2019'
 
 cod_list=[61834000,74800000]
 i=0
-gages_with_flow = []
 while i < len(cod_list):
 
-    url = 'http://telemetriaws1.ana.gov.br/ServiceANA.asmx/HidroSerieHistorica?codEstacao=' + str(cod_list[i]) + '&dataInicio=' + DataInicio + '&dataFim=' + DataFim + '&tipoDados=1&nivelConsistencia=1'
+    url = 'http://telemetriaws1.ana.gov.br/ServiceANA.asmx/HidroSerieHistorica?codEstacao=' + str(cod_list[i]) + '&dataInicio=' + DataInicio + '&dataFim=' + DataFim + '&tipoDados=3&nivelConsistencia=1'
     response = requests.get(url)
 
     try:
         soup = BeautifulSoup(response.content, "xml")
-        values = soup.find_all('Vazao')
+        values = soup.find_all('Vazao01')
+        times = soup.find_all('DataHora')
         print values
-        if values:
-            flows = []
-            for value in values:
-                flows.append(str(value.get_text()))
 
-            csv_path = 'C:\QXH\Dissertation\COSMO\stationdata\H\{filename}.csv'.format(filename = str(cod_list[i]))
-            csv_file = open(csv_path, 'wb')
-            f = csv.writer(csv_file)
-            f.writerow(flows)
-            csv_path.close()
+        dates = []
+        flows = []
 
-            if flows[1]:
-                gages_with_flow.append(str(cod_list[i]))
-                print gages_with_flow
+        for time in times:
+            dates.append(dt.datetime.strptime(time.get_text().strip(), "%Y-%m-%d %H:%M:%S"))
+
+        for value in values:
+            flows.append(value.get_text().strip())
+
+        flows_new= flows[::-1]
+        dates_new = dates[::-1]
+        print flows_new
+        print dates_new
+
+        csv_path = 'C:\QXH\Dissertation\COSMO\stationdata\H\{filename}.csv'.format(filename = str(cod_list[i]))
+        csv_file = open(csv_path, 'wb')
+        f = csv.writer(csv_file)
+        j=0
+        while j < len(flows):
+            f.writerow(dates_new[j], flows_new[j])
+            j+=1
+        csv_path.close()
+        #
+        #     if flows[1]:
+        #         gages_with_flow.append(str(cod_list[i]))
+        #         print gages_with_flow
     # else:
     #     print(str(cod_list[i])+": nodata")
     except:
@@ -40,7 +54,6 @@ while i < len(cod_list):
     print i
 
 print("!!!!!!!!!!!!!!!finished!!!!!!!!!!!!!!!")
-print gages_with_flow
 
 
 
