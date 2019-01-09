@@ -1,13 +1,12 @@
 import requests
-import BeautifulSoup
+from bs4 import BeautifulSoup
 import csv
 import datetime as dt
-import calendar
 
 DataInicio = '01/01/1980'
 DataFim = '01/01/2019'
 
-cod_list=[61834000]
+cod_list=[74800000]
 i=0
 while i < len(cod_list):
 
@@ -57,43 +56,43 @@ while i < len(cod_list):
             time_a = dt.datetime.strptime(time.get_text().strip(), "%Y-%m-%d %H:%M:%S")
             year_a = time_a.year
             month_a = time_a.month
-            for k in range(1,32):
-                dates.append(dt.datetime(year_a,month_a,k, 0, 0, 0))
-            print dates
+            for k in range(31, 0, -1):
+                dates.append('{0}-{1}-{2} 00:00:00'.format(year_a,"%02d"%(month_a,),"%02d"%(k,)))
+        print dates
 
         j=0
         while j < len(value01):
-            flows.append(value01[j].get_text().strip())
-            flows.append(value02[j].get_text().strip())
-            flows.append(value03[j].get_text().strip())
-            flows.append(value04[j].get_text().strip())
-            flows.append(value05[j].get_text().strip())
-            flows.append(value06[j].get_text().strip())
-            flows.append(value07[j].get_text().strip())
-            flows.append(value08[j].get_text().strip())
-            flows.append(value09[j].get_text().strip())
-            flows.append(value10[j].get_text().strip())
-            flows.append(value11[j].get_text().strip())
-            flows.append(value12[j].get_text().strip())
-            flows.append(value13[j].get_text().strip())
-            flows.append(value14[j].get_text().strip())
-            flows.append(value15[j].get_text().strip())
-            flows.append(value16[j].get_text().strip())
-            flows.append(value17[j].get_text().strip())
-            flows.append(value18[j].get_text().strip())
-            flows.append(value19[j].get_text().strip())
-            flows.append(value20[j].get_text().strip())
-            flows.append(value21[j].get_text().strip())
-            flows.append(value22[j].get_text().strip())
-            flows.append(value23[j].get_text().strip())
-            flows.append(value24[j].get_text().strip())
-            flows.append(value25[j].get_text().strip())
-            flows.append(value26[j].get_text().strip())
-            flows.append(value27[j].get_text().strip())
-            flows.append(value28[j].get_text().strip())
-            flows.append(value29[j].get_text().strip())
-            flows.append(value30[j].get_text().strip())
             flows.append(value31[j].get_text().strip())
+            flows.append(value30[j].get_text().strip())
+            flows.append(value29[j].get_text().strip())
+            flows.append(value28[j].get_text().strip())
+            flows.append(value27[j].get_text().strip())
+            flows.append(value26[j].get_text().strip())
+            flows.append(value25[j].get_text().strip())
+            flows.append(value24[j].get_text().strip())
+            flows.append(value23[j].get_text().strip())
+            flows.append(value22[j].get_text().strip())
+            flows.append(value21[j].get_text().strip())
+            flows.append(value20[j].get_text().strip())
+            flows.append(value19[j].get_text().strip())
+            flows.append(value18[j].get_text().strip())
+            flows.append(value17[j].get_text().strip())
+            flows.append(value16[j].get_text().strip())
+            flows.append(value15[j].get_text().strip())
+            flows.append(value14[j].get_text().strip())
+            flows.append(value13[j].get_text().strip())
+            flows.append(value12[j].get_text().strip())
+            flows.append(value11[j].get_text().strip())
+            flows.append(value10[j].get_text().strip())
+            flows.append(value09[j].get_text().strip())
+            flows.append(value08[j].get_text().strip())
+            flows.append(value07[j].get_text().strip())
+            flows.append(value06[j].get_text().strip())
+            flows.append(value05[j].get_text().strip())
+            flows.append(value04[j].get_text().strip())
+            flows.append(value03[j].get_text().strip())
+            flows.append(value02[j].get_text().strip())
+            flows.append(value01[j].get_text().strip())
             j+=1
 
         flows_new= flows[::-1]
@@ -116,10 +115,4 @@ while i < len(cod_list):
     print i
 
 print("!!!!!!!!!!!!!!!finished!!!!!!!!!!!!!!!")
-
-
-
-
-
-
 
